@@ -67,10 +67,15 @@
             color: #4CAF50;
             margin-bottom: 10px;
         }
+        h2 {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
 
         h3 {
             font-size: 1.2rem;
-            color: #555;
+            color: #fff;
             margin-bottom: 20px;
         }
 
@@ -119,7 +124,7 @@ include 'header.php';
     <div class="container">
         <div class="success-icon"></div>
         <h1>Form Submitted Successfully</h1>
-        <h3>Go to the</h3>
+        <h2>Go to the</h3>
         <a href="link.php" class="btn-link">Home Page</a>
     </div>
 </div>

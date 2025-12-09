@@ -125,7 +125,7 @@ include '../header.php';
             </h2>
 
             <h2>Salary:
-                <input type="text" name="salary" placeholder="Enter salary" value="₹" required>
+                <input type="number" name="salary" placeholder="Enter salary" value="₹" required>
             </h2>
 
             <h2>Date of Joining:
