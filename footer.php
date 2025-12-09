@@ -5,7 +5,7 @@
 ">
     <div style="max-width:960px;margin:0 auto;">
         <small style="display:inline-block;line-height:1.4;">
-            © 2025 My App React. All rights reserved.
+            © 2025 My PHP App. All rights reserved.
         </small>
     </div>
 

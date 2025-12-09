@@ -9,9 +9,7 @@ if (!isset($_SESSION['email'])) {
 $timeout = 5 * 60; // 5 minutes
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
-    // too long since last activity: destroy session and go to login
     $_SESSION = [];
-    session_unset();
     session_destroy();
     header('Location: ../login.php');
     exit;
@@ -19,7 +17,6 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) >
 
 // update last activity time stamp
 $_SESSION['last_activity'] = time();
-
 
 require_once '../db.php';
 
@@ -32,9 +29,6 @@ header('Content-Disposition: attachment; filename="departments.csv"');
 
 // open output stream
 $output = fopen('php://output', 'w');
-
-// optional: UTF-8 BOM for Excel
-// fwrite($output, "\xEF\xBB\xBF");
 
 // header row
 fputcsv($output, [

@@ -70,7 +70,7 @@
     <form method="POST" action="sign.php">
         <h3>Full Name:</h3>
         <input type="text" name="userName" pattern="[A-Za-z\s]+"
-               title="Only letters and spaces allowed" placeholder="Username" required>
+               title="Only letters and spaces allowed" placeholder="Full Name" required>
 
         <h3>Email:</h3>
         <input type="email" name="email" placeholder="Email" required>

@@ -6,35 +6,15 @@ if (!isset($_SESSION['email'])) {
 }
 
 // Auto logout after 5 minutes (300 seconds) of inactivity
-
 $timeout = 5 * 60; // 5 minutes
 
-
-
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
-
-    // too long since last activity: destroy session and go to login
-
     $_SESSION = [];
-
-    session_unset();
-
     session_destroy();
-
     header('Location: ../login.php');
-
     exit;
-
 }
-
-
-
-// update last activity time stamp
-
 $_SESSION['last_activity'] = time();
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +22,6 @@ $_SESSION['last_activity'] = time();
 <meta charset="UTF-8">
 <title>Employee Form</title>
 <link rel="icon" type="image/png" href="../fi-snsuxx-php-logo.jpg">
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html, body{height:100%;}
@@ -98,7 +77,6 @@ button:hover{background:#249f60}
     button{font-size:1rem;padding:10px;}
 }
 </style>
-
 </head>
 <body>
 <?php
@@ -107,17 +85,19 @@ $showExport = false;
 include '../header.php';
 ?>
 
-
 <div class="main-wrapper">
     <div>
         <form method="POST" action="send.php">
             <h1>Employees Form</h1>
+
             <h2>Full Name:
                 <input type="text" name="ename" pattern="[A-Za-z\s]+" placeholder="Enter full name" required>
             </h2>
+
             <h2>Date of Birth:
                 <input type="date" name="dob" required>
             </h2>
+
             <h2>Gender:
                 <select name="gender" required>
                     <option disabled selected>--Select--</option>
@@ -125,28 +105,37 @@ include '../header.php';
                     <option>Female</option>
                 </select>
             </h2>
+
             <h2>Email:
                 <input type="email" name="email" placeholder="Enter email" required>
             </h2>
+
             <h2>Phone Number:
-                <input type="tel" name="pnumber" minlength="10" maxlength="13" placeholder="Enter phone number" required>
+                <input type="tel" name="pnumber" minlength="10" maxlength="13"
+                       placeholder="Enter phone number" required>
             </h2>
+
             <h2>Address:
                 <input type="text" name="address" placeholder="Enter address" required>
             </h2>
+
             <h2>Designation:
                 <input type="text" name="designation" pattern="[A-Za-z\s]+"
                        title="Only letters and spaces allowed" placeholder="Enter designation" required>
             </h2>
+
             <h2>Salary:
                 <input type="text" name="salary" placeholder="Enter salary" value="₹" required>
             </h2>
+
             <h2>Date of Joining:
                 <input type="date" name="joining_date" required>
             </h2>
+
             <h2>Aadhar Number / ID Proof:
                 <input type="text" name="aadhar" placeholder="Write ID proof">
             </h2>
+
             <button type="submit">Submit</button>
         </form>
     </div>

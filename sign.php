@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pass    = $_POST['password'] ?? '';
     $confirm = $_POST['confirm_password'] ?? '';
 
+    // basic validation
     if ($user === '' || $email === '' || $pass === '') {
         die('All fields are required.');
     }
@@ -17,8 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Passwords do not match.');
     }
 
-    $hash = password_hash($pass, PASSWORD_DEFAULT);          // secure hash [web:6][web:12]
+    // hash password
+    $hash = password_hash($pass, PASSWORD_DEFAULT);
 
+    // insert into DB
     $stmt = $conn->prepare("INSERT INTO signup (userName, email, password) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $user, $email, $hash);
 
@@ -30,4 +33,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $stmt->close();
 }
+
 $conn->close();

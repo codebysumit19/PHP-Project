@@ -6,34 +6,19 @@ if (!isset($_SESSION['email'])) {
 }
 
 // Auto logout after 5 minutes (300 seconds) of inactivity
-
 $timeout = 5 * 60; // 5 minutes
 
-
-
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
-
     // too long since last activity: destroy session and go to login
-
     $_SESSION = [];
-
     session_unset();
-
     session_destroy();
-
     header('Location: login.php');
-
     exit;
-
 }
 
-
-
 // update last activity time stamp
-
 $_SESSION['last_activity'] = time();
-
-
 
 $userName = $_SESSION['userName'] ?? 'User';
 ?>
@@ -101,26 +86,26 @@ $userName = $_SESSION['userName'] ?? 'User';
         width:100%;
     }
     .dashboard-item{
-    background:#111827;
-    color:#e5e7eb;
-    border-radius:12px;
-    padding:10px 8px;
-    text-align:center;
-    box-shadow:0 6px 16px rgba(15,23,42,0.55);
-    transition:transform 0.18s ease,
-               box-shadow 0.18s ease,
-               background 0.2s ease;
-    cursor:pointer;
-}
-.dashboard-item a{
-    display:block;
-    text-decoration:none;
-    color:inherit;
-    font-weight:600;
-    font-size:0.9rem;
-    padding:6px 4px;
-    cursor:pointer;
-}
+        background:#111827;
+        color:#e5e7eb;
+        border-radius:12px;
+        padding:10px 8px;
+        text-align:center;
+        box-shadow:0 6px 16px rgba(15,23,42,0.55);
+        transition:transform 0.18s ease,
+                   box-shadow 0.18s ease,
+                   background 0.2s ease;
+        cursor:pointer;
+    }
+    .dashboard-item a{
+        display:block;
+        text-decoration:none;
+        color:inherit;
+        font-weight:600;
+        font-size:0.9rem;
+        padding:6px 4px;
+        cursor:pointer;
+    }
 
     .dashboard-item:hover{
         transform:translateY(-2px);
@@ -247,6 +232,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-
 </body>
 </html>

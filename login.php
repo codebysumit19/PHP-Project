@@ -22,18 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 
     // CASE 4: both filled – check DB
     } else {
-        // IMPORTANT: select userName column as well
         $stmt = $conn->prepare("SELECT userName, password FROM signup WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($user = $result->fetch_assoc()) {
-            // email exists
             if (password_verify($password, $user['password'])) {
                 session_regenerate_id(true);
                 $_SESSION['email']    = $email;
-                $_SESSION['userName'] = $user['userName']; // <-- from DB signup.userName
+                $_SESSION['userName'] = $user['userName'];
                 header("Location: link.php");
                 exit;
             } else {
@@ -41,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
                 $errorType = 'password';
             }
         } else {
-            // email not found AND password not empty → treat as BOTH wrong
+            // email not found AND password not empty
             $errorType = 'both';
         }
 
@@ -55,6 +53,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="fi-snsuxx-php-logo.jpg">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
@@ -71,7 +70,9 @@ $conn->close();
         }
         h1{text-align:center;margin-bottom:20px;color:#333}
         h3{font-size:16px;margin-bottom:8px;color:#555}
-        input[type="text"],input[type="password"]{
+        input[type="text"],
+        input[type="password"],
+        input[type="email"]{
             width:100%;padding:10px;margin:5px 0 15px;
             border:1px solid #ccc;border-radius:5px;font-size:16px;
         }
@@ -104,7 +105,7 @@ $conn->close();
 
     <form method="POST" action="login.php">
         <h3>Email:</h3>
-        <input type="text" name="email" placeholder="Email" required>
+        <input type="email" name="email" placeholder="Email" required>
 
         <h3>Password:</h3>
         <input type="password" name="password" minlength="6"

@@ -9,22 +9,17 @@ if (!isset($_SESSION['email'])) {
 $timeout = 5 * 60; // 5 minutes
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
-    // too long since last activity: destroy session and go to login
     $_SESSION = [];
-    session_unset();
     session_destroy();
     header('Location: ../login.php');
     exit;
 }
-
-// update last activity time stamp
 $_SESSION['last_activity'] = time();
-
 
 require_once '../db.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: form.php'); // adjust if your form file has another name
+    header('Location: form.php');
     exit;
 }
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Successful</title>
+    <link rel="icon" type="image/png" href="fi-snsuxx-php-logo.jpg">
     <style>
         /* Reset & Base */
         * {
@@ -65,7 +66,7 @@
             margin-bottom: 20px;
         }
 
-        a {
+        .btn-link {
             text-decoration: none;
             font-weight: bold;
             padding: 12px 20px;
@@ -77,19 +78,19 @@
             transition: background 0.3s ease, transform 0.2s ease;
         }
 
-        a:hover {
+        .btn-link:hover {
             background-color: #059669;
             transform: scale(1.05);
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes popIn {
             from { transform: scale(0); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            to   { transform: scale(1); opacity: 1; }
         }
 
         /* Responsive */
@@ -105,7 +106,7 @@
         <div class="success-icon"></div>
         <h1>Registration Successful</h1>
         <h3>Go to the</h3>
-        <a href="login.php">Login Page</a>
+        <a href="login.php" class="btn-link">Login Page</a>
     </div>
 </body>
 </html>

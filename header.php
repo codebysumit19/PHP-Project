@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $headerTitle = isset($pageTitle) && $pageTitle !== ''
     ? $pageTitle
-    : 'Welcome to Dashboard';
+    : 'PHP CRUD Dashboard';
 
 $userName    = $_SESSION['userName'] ?? 'User';
 $userInitial = strtoupper(mb_substr($userName, 0, 1, 'UTF-8'));
@@ -16,10 +16,10 @@ $userInitial = strtoupper(mb_substr($userName, 0, 1, 'UTF-8'));
     font-family:Arial, sans-serif;flex-wrap:wrap;row-gap:10px;
 ">
     <div style="display:flex;align-items:center;gap:12px;min-width:180px;">
-        <a href="../link.php" style="text-decoration:none;color:white;display:flex;align-items:center;gap:8px;">
+        <a href="/link.php" style="text-decoration:none;color:white;display:flex;align-items:center;gap:8px;">
             <div style="
                 width:40px;height:40px;border-radius:50%;
-                background:#38bdf8;display:flex;align-items:center;
+                background:#ffffff;display:flex;align-items:center;
                 justify-content:center;overflow:hidden;flex-shrink:0;
             ">
                 <img src="https://friconix.com/jpg/fi-snsuxx-php-logo.jpg"
@@ -37,7 +37,7 @@ $userInitial = strtoupper(mb_substr($userName, 0, 1, 'UTF-8'));
         gap:10px 14px;font-size:13px;flex:1;min-width:220px;
         text-align:center;
     ">
-        <a href="../link.php"
+        <a href="/link.php"
            style="color:white;text-decoration:none;padding:4px 8px;border-radius:4px;
                   transition:background 0.15s,color 0.15s;">
             Home

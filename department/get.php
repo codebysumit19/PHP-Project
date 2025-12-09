@@ -9,17 +9,12 @@ if (!isset($_SESSION['email'])) {
 $timeout = 5 * 60; // 5 minutes
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
-    // too long since last activity: destroy session and go to login
     $_SESSION = [];
-    session_unset();
     session_destroy();
     header('Location: ../login.php');
     exit;
 }
-
-// update last activity time stamp
 $_SESSION['last_activity'] = time();
-
 
 // Export button
 if (isset($_POST['export'])) {
@@ -75,8 +70,9 @@ if ($search !== '') {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Department Data</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="../fi-snsuxx-php-logo.jpg">
@@ -87,7 +83,7 @@ body{
     font-family:Arial,sans-serif;
     background:linear-gradient(135deg,#e8f5e9,#ffffff);
     display:flex;flex-direction:column;
-    overflow-y:scroll; /* always show vertical scrollbar */
+    overflow-y:scroll;
 }
 .table-container{
     flex:1;padding:20px 12px 30px;overflow-x:auto;
@@ -141,20 +137,20 @@ include '../header.php';
         </button>
     </form>
 
-<table>
-    <tr>
-        <th>Department ID</th>
-        <th>Department Name</th>
-        <th>Email</th>
-        <th>Contact Number</th>
-        <th>Number of Employees</th>
-        <th>Responsibilities</th>
-        <th>Annual Budget</th>
-        <th>Status</th>
-        <th>Description</th>
-        <th>Update</th>
-        <th>Delete</th>
-    </tr>
+    <table>
+        <tr>
+            <th>Department ID</th>
+            <th>Department Name</th>
+            <th>Email</th>
+            <th>Contact Number</th>
+            <th>Number of Employees</th>
+            <th>Responsibilities</th>
+            <th>Annual Budget</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
 <?php
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -168,8 +164,8 @@ if ($result && $result->num_rows > 0) {
         echo "<td>" . htmlspecialchars($row['budget']) . "</td>";
         echo "<td>" . htmlspecialchars($row['status']) . "</td>";
         echo "<td>" . htmlspecialchars($row['description']) . "</td>";
-        echo "<td><a href='update.php?id=" . $row['id'] . "'><i class='fas fa-edit'></i></a></td>";
-        echo "<td><i class='fas fa-trash' onclick='confirmDelete(" . $row['id'] . ")'></i></td>";
+        echo "<td><a href='update.php?id=" . (int)$row['id'] . "'><i class='fas fa-edit'></i></a></td>";
+        echo "<td><i class='fas fa-trash' onclick='confirmDelete(" . (int)$row['id'] . ")'></i></td>";
         echo "</tr>";
     }
 } else {
@@ -177,7 +173,7 @@ if ($result && $result->num_rows > 0) {
 }
 $conn->close();
 ?>
-</table>
+    </table>
 </div>
 
 <script>

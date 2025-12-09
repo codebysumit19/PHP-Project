@@ -6,20 +6,15 @@ if (!isset($_SESSION['email'])) {
 }
 
 // Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60; // 5 minutes
+$timeout = 5 * 60; // 5 minutes;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
-    // too long since last activity: destroy session and go to login
     $_SESSION = [];
-    session_unset();
     session_destroy();
     header('Location: ../login.php');
     exit;
 }
-
-// update last activity time stamp
 $_SESSION['last_activity'] = time();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,10 +60,6 @@ button{
     border-radius:6px;cursor:pointer;width:100%;font-size:1.05rem;margin-top:20px;
 }
 button:hover{background:#249f60}
-.bottom-nav{
-    text-align:center;
-    margin:15px 0;
-}
 
 /* Tablets and up */
 @media (min-width: 768px){
@@ -93,7 +84,6 @@ button:hover{background:#249f60}
     button{font-size:1rem;padding:10px;}
 }
 </style>
-
 </head>
 <body>
 
@@ -103,12 +93,11 @@ $showExport = false;
 include '../header.php';
 ?>
 
-
 <div class="main-wrapper">
-    
     <div>
         <form action="send.php" method="POST">
             <h1>Department Form</h1>
+
             <h2>Department Name:
                 <input type="text" name="dname" placeholder="Enter Department" pattern="[A-Za-z\s]+"
                        title="Only letters and spaces allowed" required>
@@ -149,6 +138,5 @@ include '../header.php';
 </div>
 
 <?php include '../footer.php'; ?>
-
 </body>
 </html>

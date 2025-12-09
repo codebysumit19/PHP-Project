@@ -111,14 +111,14 @@
 </head>
 <body>
 <?php
-$pageTitle = ' ';
+$pageTitle = 'Form Submitted';
 $showExport = false;
 include 'header.php';
 ?>
 <div class="main-wrapper">
     <div class="container">
         <div class="success-icon"></div>
-        <h1>Form Submitted Successful</h1>
+        <h1>Form Submitted Successfully</h1>
         <h3>Go to the</h3>
         <a href="link.php" class="btn-link">Home Page</a>
     </div>
