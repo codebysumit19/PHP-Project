@@ -5,8 +5,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60;
+// Auto logout after 50 minutes (300 seconds) of inactivity
+$timeout = 50 * 60;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     $_SESSION = [];
@@ -89,6 +89,12 @@ include '../header.php';
     <div>
         <form method="POST" action="send.php">
             <h1>Project Form</h1>
+
+            <h2>Department ID:
+                <input type="text" name="department_id"
+                       placeholder="Enter Department ID (departments.id)"
+                       maxlength="100" required>
+            </h2>
 
             <h2>Project Name:
                 <input type="text" name="pname" placeholder="Project Name" required>

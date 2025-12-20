@@ -24,26 +24,26 @@ if (isset($_POST['export'])) {
 
 require_once '../db.php';
 
-// Delete
+// Delete (by internal PK id)
 if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
+    $id = $_GET['id']; // VARCHAR(100)
     $stmt = $conn->prepare("DELETE FROM departments WHERE id = ?");
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("s", $id);
     $stmt->execute();
     $stmt->close();
 }
 
-// Update
+// Update (POST) – now also updates department_id
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['id']) && !isset($_POST['search'])) {
-    $id = intval($_POST['id']);
+    $id = $_POST['id']; // internal PK
     $stmt = $conn->prepare(
         "UPDATE departments
-         SET dname=?, email=?, number=?, nemployees=?, resp=?, budget=?, status=?, description=?
+         SET department_id=?, dname=?, email=?, number=?, nemployees=?, resp=?, budget=?, status=?, description=?
          WHERE id=?"
     );
     $stmt->bind_param(
-        "sssissssi",
-        $_POST['dname'], $_POST['email'], $_POST['number'],
+        "ssssisssss",
+        $_POST['department_id'], $_POST['dname'], $_POST['email'], $_POST['number'],
         $_POST['nemployees'], $_POST['resp'], $_POST['budget'],
         $_POST['status'], $_POST['description'], $id
     );
@@ -53,16 +53,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['id']) && !isset($_POS
     exit;
 }
 
-// Search
+// Search (can search by department_id as well if you want)
 $search = trim($_GET['search'] ?? '');
 
 if ($search !== '') {
     $like = '%' . $search . '%';
     $stmt = $conn->prepare(
         "SELECT * FROM departments
-         WHERE dname LIKE ? OR email LIKE ? OR status LIKE ?"
+         WHERE department_id LIKE ? OR dname LIKE ? OR email LIKE ? OR status LIKE ?"
     );
-    $stmt->bind_param("sss", $like, $like, $like);
+    $stmt->bind_param("ssss", $like, $like, $like, $like);
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
@@ -127,7 +127,7 @@ include '../header.php';
 <div class="table-container">
     <h1>Department Data</h1>
     <form method="get" style="margin-bottom:12px; text-align:right;">
-        <input type="text" name="search" placeholder="Search by name/email/status"
+        <input type="text" name="search" placeholder="Search by dept ID/name/email/status"
                value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>"
                style="padding:6px 8px;border-radius:4px;border:1px solid #ccc;">
         <button type="submit"
@@ -139,8 +139,8 @@ include '../header.php';
 
     <table>
         <tr>
-            <th>Department ID</th>
             <th>Department Name</th>
+            <th>Department ID</th>
             <th>Email</th>
             <th>Contact Number</th>
             <th>Number of Employees</th>
@@ -155,8 +155,8 @@ include '../header.php';
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
-        echo "<td>" . htmlspecialchars($row['id']) . "</td>";
         echo "<td>" . htmlspecialchars($row['dname']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['department_id']) . "</td>";
         echo "<td>" . htmlspecialchars($row['email']) . "</td>";
         echo "<td>" . htmlspecialchars($row['number']) . "</td>";
         echo "<td>" . htmlspecialchars($row['nemployees']) . "</td>";
@@ -164,8 +164,9 @@ if ($result && $result->num_rows > 0) {
         echo "<td>" . htmlspecialchars($row['budget']) . "</td>";
         echo "<td>" . htmlspecialchars($row['status']) . "</td>";
         echo "<td>" . htmlspecialchars($row['description']) . "</td>";
-        echo "<td><a href='update.php?id=" . (int)$row['id'] . "'><i class='fas fa-edit'></i></a></td>";
-        echo "<td><i class='fas fa-trash' onclick='confirmDelete(" . (int)$row['id'] . ")'></i></td>";
+        // Use internal id in URLs, but do NOT show it
+        echo "<td><a href='update.php?id=" . rawurlencode($row['id']) . "'><i class='fas fa-edit'></i></a></td>";
+        echo "<td><i class='fas fa-trash' onclick='confirmDelete(\"" . addslashes($row['id']) . "\")'></i></td>";
         echo "</tr>";
     }
 } else {
@@ -179,7 +180,7 @@ $conn->close();
 <script>
 function confirmDelete(id){
     if(confirm("Are you sure you want to delete this department?")){
-        window.location.href = "?id=" + id;
+        window.location.href = "?id=" + encodeURIComponent(id);
     }
 }
 </script>

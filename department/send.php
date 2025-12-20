@@ -23,17 +23,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$dname       = trim($_POST['dname'] ?? '');
-$email       = trim($_POST['email'] ?? '');
-$number      = trim($_POST['number'] ?? '');
-$nemployees  = (int)($_POST['nemployees'] ?? 0);
-$resp        = trim($_POST['resp'] ?? '');
-$budget      = trim($_POST['budget'] ?? '');
-$status      = trim($_POST['status'] ?? '');
-$description = trim($_POST['description'] ?? '');
+$department_id = trim($_POST['department_id'] ?? '');
+$dname         = trim($_POST['dname'] ?? '');
+$email         = trim($_POST['email'] ?? '');
+$number        = trim($_POST['number'] ?? '');
+$nemployees    = (int)($_POST['nemployees'] ?? 0);
+$resp          = trim($_POST['resp'] ?? '');
+$budget        = trim($_POST['budget'] ?? '');
+$status        = trim($_POST['status'] ?? '');
+$description   = trim($_POST['description'] ?? '');
 
 // simple required checks
-if ($dname === '' || $email === '' || $number === '' || $nemployees <= 0 ||
+if ($department_id === '' || $dname === '' || $email === '' || $number === '' || $nemployees <= 0 ||
     $resp === '' || $budget === '' || $status === '') {
     die('All required fields must be filled correctly.');
 }
@@ -42,20 +43,26 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     die('Invalid email format.');
 }
 
+// Insert department_id as the business ID; id remains internal PK
 $stmt = $conn->prepare(
-    "INSERT INTO departments (dname, email, number, nemployees, resp, budget, status, description)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    "INSERT INTO departments (department_id, dname, email, number, nemployees, resp, budget, status, description)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 );
+
+if (!$stmt) {
+    die('Prepare failed: ' . $conn->error);
+}
+
 $stmt->bind_param(
-    "sssissss",
-    $dname, $email, $number, $nemployees, $resp, $budget, $status, $description
+    "ssssissss",
+    $department_id, $dname, $email, $number, $nemployees, $resp, $budget, $status, $description
 );
 
 if ($stmt->execute()) {
     header("Location: ../submit.php");
     exit;
 } else {
-    echo "Error saving department.";
+    echo "Error saving department: " . $stmt->error;
 }
 
 $stmt->close();

@@ -5,8 +5,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60; // 5 minutes
+// Auto logout after 50 minutes (300 seconds) of inactivity
+$timeout = 50 * 60;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     $_SESSION = [];
@@ -29,18 +29,15 @@ $_SESSION['last_activity'] = time();
         margin: 0;
         padding: 0;
     }
-
     html, body {
         height: 100%;
     }
-
     body {
         font-family: Arial, sans-serif;
         background: linear-gradient(135deg, #e8f5e9, #ffffff);
         display: flex;
         flex-direction: column;
     }
-
     .main-wrapper {
         flex: 1;
         display: flex;
@@ -48,7 +45,6 @@ $_SESSION['last_activity'] = time();
         align-items: flex-start;
         padding: 40px 16px;
     }
-
     .event-form-card {
         background: #ffffff;
         border-radius: 12px;
@@ -59,7 +55,6 @@ $_SESSION['last_activity'] = time();
         max-height: 80vh;
         overflow-y: auto;
     }
-
     .event-form-title {
         text-align: center;
         margin-bottom: 16px;
@@ -67,11 +62,9 @@ $_SESSION['last_activity'] = time();
         font-weight: 700;
         color: #111827;
     }
-
     .field-group {
         margin-top: 12px;
     }
-
     .field-group label {
         display: block;
         font-size: 0.98rem;
@@ -79,7 +72,6 @@ $_SESSION['last_activity'] = time();
         color: #111827;
         font-weight: 600;
     }
-
     .field-group input[type="text"],
     .field-group input[type="date"],
     .field-group input[type="time"] {
@@ -90,7 +82,6 @@ $_SESSION['last_activity'] = time();
         background: #f9fafb;
         font-size: 0.95rem;
     }
-
     .radio-group {
         display: flex;
         align-items: center;
@@ -98,12 +89,10 @@ $_SESSION['last_activity'] = time();
         flex-wrap: wrap;
         margin-top: 4px;
     }
-
     .radio-group label {
         font-weight: 400;
         margin-right: 8px;
     }
-
     button {
         background: #4CAF50;
         color: #fff;
@@ -116,13 +105,11 @@ $_SESSION['last_activity'] = time();
         margin-top: 20px;
         transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
     }
-
     button:hover {
         background: #249f60;
         transform: translateY(-1px);
         box-shadow: 0 6px 14px rgba(15, 118, 110, 0.3);
     }
-
     @media (min-width: 768px) {
         .main-wrapper {
             padding: 40px 16px;
@@ -134,7 +121,6 @@ $_SESSION['last_activity'] = time();
             font-size: 1.8rem;
         }
     }
-
     @media (max-width: 480px) {
         .main-wrapper {
             padding: 20px 12px;
@@ -165,6 +151,12 @@ include '../header.php';
     <div class="event-form-card">
         <h1 class="event-form-title">Event Form</h1>
         <form method="POST" action="send.php">
+            <div class="field-group">
+                <label for="department_id">Department ID (departments.id)</label>
+                <input type="text" id="department_id" name="department_id"
+                       maxlength="100" required>
+            </div>
+
             <div class="field-group">
                 <label for="name">Event Name</label>
                 <input type="text" id="name" name="name"

@@ -4,9 +4,9 @@
     font-family:Arial, sans-serif;
 ">
     <div style="max-width:960px;margin:0 auto;">
-        <small style="display:inline-block;line-height:1.4;">
+        <large style="display:inline-block;line-height:1.4;">
             © 2025 My PHP App. All rights reserved.
-        </small>
+</large>
     </div>
 
     <style>

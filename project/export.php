@@ -5,8 +5,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60;
+// Auto logout after 50 minutes (300 seconds) of inactivity
+$timeout = 50 * 60;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     $_SESSION = [];
@@ -22,25 +22,33 @@ $sql    = "SELECT * FROM projects";
 $result = $conn->query($sql);
 
 header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename="projects.csv"');
+header('Content-Disposition: attachment; filename=\"projects.csv\"');
 
 $output = fopen('php://output', 'w');
 fputcsv($output, [
-    'Project ID','Project Name','Client / Company Name','Project Manager',
-    'Start Date','End Date / Deadline','Project Status','Description'
+    'Project ID',
+    'Department ID',
+    'Project Name',
+    'Client / Company Name',
+    'Project Manager',
+    'Start Date',
+    'End Date / Deadline',
+    'Project Status',
+    'Description'
 ]);
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         fputcsv($output, [
             $row['id'],
+            $row['department_id'],
             $row['pname'],
             $row['cname'],
             $row['pmanager'],
             $row['sdate'],
             $row['edate'],
             $row['status'],
-            $row["pdescription"]
+            $row['pdescription']
         ]);
     }
 }

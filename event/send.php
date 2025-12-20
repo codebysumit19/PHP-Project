@@ -5,8 +5,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60; // 5 minutes
+// Auto logout after 50 minutes (300 seconds) of inactivity
+$timeout = 50 * 60;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     $_SESSION = [];
@@ -23,16 +23,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$name    = trim($_POST['name'] ?? '');
-$address = trim($_POST['address'] ?? '');
-$date    = trim($_POST['date'] ?? '');
-$stime   = trim($_POST['stime'] ?? '');
-$etime   = trim($_POST['etime'] ?? '');
-$type    = trim($_POST['type'] ?? '');
-$happend = trim($_POST['happend'] ?? '');
+$department_id = trim($_POST['department_id'] ?? '');
+$name          = trim($_POST['name'] ?? '');
+$address       = trim($_POST['address'] ?? '');
+$date          = trim($_POST['date'] ?? '');
+$stime         = trim($_POST['stime'] ?? '');
+$etime         = trim($_POST['etime'] ?? '');
+$type          = trim($_POST['type'] ?? '');
+$happend       = trim($_POST['happend'] ?? '');
 
 // required
-if ($name === '' || $address === '' || $date === '' || $stime === '' ||
+if ($department_id === '' || $name === '' || $address === '' || $date === '' || $stime === '' ||
     $etime === '' || $type === '' || $happend === '') {
     die('All required fields must be filled correctly.');
 }
@@ -42,17 +43,42 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
     die('Invalid date format.');
 }
 
+// check department_id exists in departments table
+$check = $conn->prepare("SELECT department_id FROM departments WHERE department_id = ?");
+$check->bind_param("s", $department_id);
+$check->execute();
+$check->store_result();
+
+if ($check->num_rows === 0) {
+    $check->close();
+    echo "<script>
+        alert('Department ID does not exist.');
+        window.history.back();
+    </script>";
+    exit;
+}
+
+$check->close();
+
+
 $stmt = $conn->prepare(
-    "INSERT INTO events (name, address, date, stime, etime, type, happend)
-     VALUES (?, ?, ?, ?, ?, ?, ?)"
+    "INSERT INTO events (department_id, name, address, date, stime, etime, type, happend)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 );
-$stmt->bind_param("sssssss", $name, $address, $date, $stime, $etime, $type, $happend);
+
+if (!$stmt) {
+    die('Prepare failed: ' . $conn->error);
+}
+
+$stmt->bind_param("ssssssss",
+    $department_id, $name, $address, $date, $stime, $etime, $type, $happend
+);
 
 if ($stmt->execute()) {
     header("Location: ../submit.php");
     exit;
 } else {
-    echo "Error saving event.";
+    echo "Error saving event: " . $stmt->error;
 }
 $stmt->close();
 $conn->close();

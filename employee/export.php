@@ -5,8 +5,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60; // 5 minutes
+// Auto logout after 50 minutes of inactivity
+$timeout = 50 * 60;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     $_SESSION = [];
@@ -27,14 +27,25 @@ header('Content-Disposition: attachment; filename="employees.csv"');
 
 $output = fopen('php://output', 'w');
 fputcsv($output, [
-    'Employee ID','Full Name','Date of Birth','Gender','Email',
-    'Phone Number','Address','Designation','Salary','Date of Joining','Aadhar / ID'
+    'Employee ID',
+    'Department ID',
+    'Full Name',
+    'Date of Birth',
+    'Gender',
+    'Email',
+    'Phone Number',
+    'Address',
+    'Designation',
+    'Salary',
+    'Date of Joining',
+    'Aadhar / ID'
 ]);
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         fputcsv($output, [
             $row["id"],
+            $row["department_id"],
             $row["ename"],
             $row["dob"],
             $row["gender"],

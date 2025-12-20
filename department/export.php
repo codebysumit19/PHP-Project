@@ -32,7 +32,7 @@ $output = fopen('php://output', 'w');
 
 // header row
 fputcsv($output, [
-    'Department ID',
+    'Department ID',          // business department_id
     'Department Name',
     'Email',
     'Contact Number',
@@ -47,7 +47,7 @@ fputcsv($output, [
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         fputcsv($output, [
-            $row['id'],
+            $row['department_id'], // show business ID
             $row['dname'],
             $row['email'],
             $row['number'],

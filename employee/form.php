@@ -5,8 +5,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60; // 5 minutes
+// Auto logout after 50 minutes of inactivity
+$timeout = 50 * 60;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     $_SESSION = [];
@@ -56,7 +56,6 @@ button{
     border-radius:6px;cursor:pointer;width:100%;font-size:1.05rem;margin-top:20px;
 }
 button:hover{background:#249f60}
-.bottom-nav{text-align:center;margin-top:15px;}
 
 /* Tablets and up */
 @media (min-width: 768px){
@@ -89,6 +88,12 @@ include '../header.php';
     <div>
         <form method="POST" action="send.php">
             <h1>Employees Form</h1>
+
+            <h2>Department ID:
+                <input type="text" name="department_id"
+                       placeholder="Enter Department ID (departments.id)"
+                       maxlength="100" required>
+            </h2>
 
             <h2>Full Name:
                 <input type="text" name="ename" pattern="[A-Za-z\s]+" placeholder="Enter full name" required>
@@ -125,15 +130,15 @@ include '../header.php';
             </h2>
 
             <h2>Salary:
-                <input type="number" name="salary" placeholder="Enter salary" value="₹" required>
+                <input type="number" step="0.01" name="salary" placeholder="Enter salary" required>
             </h2>
 
             <h2>Date of Joining:
                 <input type="date" name="joining_date" required>
             </h2>
 
-            <h2>Aadhar Number / ID Proof:
-                <input type="text" name="aadhar" placeholder="Write ID proof">
+            <h2>Aadhar Number:
+                <input type="number" name="aadhar" maxlength="12" placeholder="Write Aadhar Number">
             </h2>
 
             <button type="submit">Submit</button>

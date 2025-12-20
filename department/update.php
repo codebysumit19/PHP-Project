@@ -21,9 +21,9 @@ require_once '../db.php';
 if (!isset($_GET['id'])) {
     die("No department ID provided.");
 }
-$id = intval($_GET['id']);
+$id = $_GET['id']; // internal PK (VARCHAR 100)
 $stmt = $conn->prepare("SELECT * FROM departments WHERE id = ?");
-$stmt->bind_param("i", $id);
+$stmt->bind_param("s", $id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
@@ -81,7 +81,16 @@ include '../header.php';
 <div class="main-wrapper">
     <form action="get.php" method="POST">
         <h1>Update Department Data</h1>
-        <input type="hidden" name="id" value="<?php echo (int)$row['id']; ?>">
+
+        <!-- internal primary key (hidden) -->
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); ?>">
+
+        <!-- Business department_id editable -->
+        <h2>Department ID:
+            <input type="text" name="department_id"
+                   value="<?php echo htmlspecialchars($row['department_id'], ENT_QUOTES, 'UTF-8'); ?>"
+                   maxlength="100" required>
+        </h2>
 
         <h2>Department Name:
             <input type="text" name="dname"

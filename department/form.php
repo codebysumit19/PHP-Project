@@ -98,6 +98,12 @@ include '../header.php';
         <form action="send.php" method="POST">
             <h1>Department Form</h1>
 
+            <!-- Business Department ID stored in department_id -->
+            <h2>Department ID:
+                <input type="text" name="department_id" placeholder="Enter Department ID"
+                       maxlength="100" required>
+            </h2>
+
             <h2>Department Name:
                 <input type="text" name="dname" placeholder="Enter Department" pattern="[A-Za-z\s]+"
                        title="Only letters and spaces allowed" required>

@@ -5,8 +5,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60; // 5 minutes
+// Auto logout after 50 minutes (300 seconds) of inactivity
+$timeout = 50 * 60;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     $_SESSION = [];
@@ -25,14 +25,30 @@ header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename="events.csv"');
 
 $output = fopen('php://output', 'w');
-fputcsv($output, ['ID','Name','Address','Date','Start Time','End Time','Type','Happened']);
+fputcsv($output, [
+    'Event ID',
+    'Department ID',
+    'Name',
+    'Address',
+    'Date',
+    'Start Time',
+    'End Time',
+    'Type',
+    'Happened'
+]);
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         fputcsv($output, [
-            $row['id'], $row['name'], $row['address'],
-            $row['date'], $row['stime'], $row['etime'],
-            $row['type'], $row['happend']
+            $row['id'],
+            $row['department_id'],
+            $row['name'],
+            $row['address'],
+            $row['date'],
+            $row['stime'],
+            $row['etime'],
+            $row['type'],
+            $row['happend']
         ]);
     }
 }

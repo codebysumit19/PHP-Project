@@ -5,8 +5,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60; // 5 minutes
+// Auto logout after 50 minutes of inactivity
+$timeout = 50 * 60;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     $_SESSION = [];
@@ -21,9 +21,9 @@ require_once '../db.php';
 if (!isset($_GET['id'])) {
     die("No employee ID provided.");
 }
-$id = intval($_GET['id']);
+$id = $_GET['id'];
 $stmt = $conn->prepare("SELECT * FROM employees WHERE id = ?");
-$stmt->bind_param("i", $id);
+$stmt->bind_param("s", $id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
@@ -81,7 +81,14 @@ include '../header.php';
 <div class="main-wrapper">
     <form method="POST" action="get.php">
         <h1>Update Employees Data</h1>
-        <input type="hidden" name="id" value="<?php echo (int)$row['id']; ?>">
+        <input type="hidden" name="id"
+               value="<?php echo htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8'); ?>">
+
+        <h2>Department ID:
+            <input type="text" name="department_id"
+                   value="<?php echo htmlspecialchars($row['department_id'], ENT_QUOTES, 'UTF-8'); ?>"
+                   maxlength="100" required>
+        </h2>
 
         <h2>Full Name:
             <input type="text" name="ename"
@@ -123,7 +130,7 @@ include '../header.php';
         </h2>
 
         <h2>Salary:
-            <input type="text" name="salary"
+            <input type="number" step="0.01" name="salary"
                    value="<?php echo htmlspecialchars($row['salary'], ENT_QUOTES, 'UTF-8'); ?>" required>
         </h2>
 

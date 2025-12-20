@@ -5,8 +5,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60; // 5 minutes
+// Auto logout after 50 minutes (300 seconds) of inactivity
+$timeout = 50 * 60;
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     $_SESSION = [];
@@ -24,28 +24,27 @@ if (isset($_POST['export'])) {
 
 require_once '../db.php';
 
-// Delete
+// Delete (id is VARCHAR(100))
 if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
+    $id = $_GET['id'];
     $stmt = $conn->prepare("DELETE FROM events WHERE id = ?");
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("s", $id);
     $stmt->execute();
     $stmt->close();
 }
 
 // Update from update.php
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['id']) && !isset($_POST['search'])) {
-    $id = intval($_POST['id']);
+    $id = $_POST['id'];
     $stmt = $conn->prepare(
         "UPDATE events
-         SET name=?, address=?, date=?, stime=?, etime=?, type=?, happend=?
+         SET department_id=?, name=?, address=?, date=?, stime=?, etime=?, type=?, happend=?
          WHERE id=?"
     );
     $stmt->bind_param(
-        "sssssssi",
-        $_POST['name'], $_POST['address'], $_POST['date'],
-        $_POST['stime'], $_POST['etime'], $_POST['type'],
-        $_POST['happend'], $id
+        "sssssssss",
+        $_POST['department_id'], $_POST['name'], $_POST['address'], $_POST['date'],
+        $_POST['stime'], $_POST['etime'], $_POST['type'], $_POST['happend'], $id
     );
     $stmt->execute();
     $stmt->close();
@@ -60,9 +59,9 @@ if ($search !== '') {
     $like = '%' . $search . '%';
     $stmt = $conn->prepare(
         "SELECT * FROM events
-         WHERE name LIKE ? OR type LIKE ? OR date LIKE ?"
+         WHERE name LIKE ? OR type LIKE ? OR date LIKE ? OR department_id LIKE ?"
     );
-    $stmt->bind_param("sss", $like, $like, $like);
+    $stmt->bind_param("ssss", $like, $like, $like, $like);
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
@@ -97,7 +96,7 @@ body{
 .table-container table{
     width:100%;
     border-collapse:collapse;
-    min-width:750px;
+    min-width:850px;
     background:#ffffff;
     box-shadow:0 4px 12px rgba(0,0,0,0.06);
 }
@@ -156,7 +155,7 @@ body{
     <script>
         function confirmDelete(id){
             if(confirm("Are you sure you want to delete this event?")){
-                window.location.href="?id="+id;
+                window.location.href = "?id=" + encodeURIComponent(id);
             }
         }
     </script>
@@ -171,7 +170,7 @@ include '../header.php';
 <div class="table-container">
     <h1>Events Data</h1>
     <form method="get" style="margin-bottom:12px; text-align:right;">
-        <input type="text" name="search" placeholder="Search by name/type/date"
+        <input type="text" name="search" placeholder="Search by dept ID/name/type/date"
                value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>"
                style="padding:6px 8px;border-radius:4px;border:1px solid #ccc;">
         <button type="submit"
@@ -183,28 +182,35 @@ include '../header.php';
 
     <table>
         <tr>
-            <th>Event ID</th><th>Name</th><th>Address</th><th>Date</th>
-            <th>Start</th><th>End</th><th>Type</th><th>Happened</th>
-            <th>Update</th><th>Delete</th>
+            <th>Name</th>
+            <th>Department ID</th>
+            <th>Address</th>
+            <th>Date</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Type</th>
+            <th>Happened</th>
+            <th>Update</th>
+            <th>Delete</th>
         </tr>
 <?php
 if ($result && $result->num_rows > 0){
     while($row = $result->fetch_assoc()){
         echo "<tr>";
-        echo "<td>" . htmlspecialchars($row['id']) . "</td>";
         echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['department_id']) . "</td>";
         echo "<td>" . htmlspecialchars($row['address']) . "</td>";
         echo "<td>" . htmlspecialchars($row['date']) . "</td>";
         echo "<td>" . htmlspecialchars($row['stime']) . "</td>";
         echo "<td>" . htmlspecialchars($row['etime']) . "</td>";
         echo "<td>" . htmlspecialchars($row['type']) . "</td>";
         echo "<td>" . htmlspecialchars($row['happend']) . "</td>";
-        echo "<td><a href='update.php?id=" . (int)$row['id'] . "'><i class='fas fa-edit'></i></a></td>";
-        echo "<td><i class='fas fa-trash' onclick='confirmDelete(" . (int)$row['id'] . ")'></i></td>";
+        echo "<td><a href='update.php?id=" . rawurlencode($row['id']) . "'><i class='fas fa-edit'></i></a></td>";
+        echo "<td><i class='fas fa-trash' onclick='confirmDelete(\"" . addslashes($row['id']) . "\")'></i></td>";
         echo "</tr>";
     }
 } else {
-    echo "<tr><td colspan='10'>No data found</td></tr>";
+    echo "<tr><td colspan='11'>No data found</td></tr>";
 }
 $conn->close();
 ?>

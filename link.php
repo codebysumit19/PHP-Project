@@ -6,7 +6,7 @@ if (!isset($_SESSION['email'])) {
 }
 
 // Auto logout after 5 minutes (300 seconds) of inactivity
-$timeout = 5 * 60; // 5 minutes
+$timeout = 50 * 60; // 5 minutes
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     // too long since last activity: destroy session and go to login
@@ -165,7 +165,7 @@ $userName = $_SESSION['userName'] ?? 'User';
 </div>
 
 <?php
-$pageTitle = 'Welcome to Dashboard';
+$pageTitle = 'Dashboard';
 $showExport = false;
 include 'header.php';
 ?>
