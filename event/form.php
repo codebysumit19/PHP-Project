@@ -153,45 +153,45 @@ include '../header.php';
         <h1 class="event-form-title">Event Form</h1>
         <form method="POST" action="send.php">
             <div class="field-group">
-                <label for="department_id">Department ID (departments.id)</label>
+                <label for="department_id">Department ID:</label>
                 <input type="text" id="department_id" name="department_id"
                        maxlength="100" required>
             </div>
 
             <div class="field-group">
-                <label for="name">Event Name</label>
+                <label for="name">Event Name:</label>
                 <input type="text" id="name" name="name"
                        pattern="[A-Za-z\s]+"
                        title="Only letters and spaces allowed" required>
             </div>
 
             <div class="field-group">
-                <label for="address">Event Address</label>
+                <label for="address">Event Address:</label>
                 <input type="text" id="address" name="address" required>
             </div>
 
             <div class="field-group">
-                <label for="date">Event Date</label>
+                <label for="date">Event Date:</label>
                 <input type="date" id="date" name="date" required>
             </div>
 
             <div class="field-group">
-                <label for="stime">Event Start Time</label>
+                <label for="stime">Event Start Time:</label>
                 <input type="time" id="stime" name="stime" required>
             </div>
 
             <div class="field-group">
-                <label for="etime">Event End Time</label>
+                <label for="etime">Event End Time:</label>
                 <input type="time" id="etime" name="etime" required>
             </div>
 
             <div class="field-group">
-                <label for="type">Type of Event</label>
+                <label for="type">Type of Event:</label>
                 <input type="text" id="type" name="type" required>
             </div>
 
             <div class="field-group">
-                <label>Event Happened</label>
+                <label>Event Happened:</label>
                 <div class="radio-group">
                     <label>
                         <input type="radio" name="happend" value="Yes" required> Yes

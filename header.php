@@ -14,47 +14,31 @@ $userInitial = strtoupper(mb_substr($userName, 0, 1, 'UTF-8'));
 
 // detect if header is included from subfolder (event/, employee/, department/, project/)
 $dirName = basename(__DIR__);
-$base = in_array($dirName, ['event', 'employee', 'department', 'project']) ? '../' : './';
+$base = in_array($dirName, ['event','employee','department','project']) ? '../' : './';
 ?>
-<header style="
-    display:flex;align-items:center;justify-content:space-between;
-    padding:10px 16px;background:#68A691;color:#FFFFFF;
-    font-family:Arial, sans-serif;flex-wrap:wrap;row-gap:10px;
-">
-    <div style="display:flex;align-items:center;gap:12px;min-width:180px;">
-        <a href="<?php echo $base; ?>link.php"
-            style="text-decoration:none;color:white;display:flex;align-items:center;gap:8px;">
-            <div style="
-                width:40px;height:40px;border-radius:50%;
-                display:flex;align-items:center;
-                justify-content:center;overflow:hidden;flex-shrink:0;
-            ">
+<header class="site-header">
+    <div class="header-left">
+        <a href="<?php echo $base; ?>link.php" class="logo-link">
+            <div class="logo-circle">
                 <img src="https://friconix.com/jpg/fi-snsuxx-php-logo.jpg"
-                    alt="PHP Logo"
-                    style="width:80%;height:80%;object-fit:contain;display:block;border-radius:50%">
+                     alt="PHP Logo"
+                     class="logo-img">
             </div>
         </a>
-        <h3 style="margin:0;font-size:17px;white-space:nowrap;">
+        <h3 class="header-title">
             <?php echo htmlspecialchars($headerTitle, ENT_QUOTES, 'UTF-8'); ?>
         </h3>
     </div>
 
-    <nav style="
-        display:flex;flex-wrap:wrap;justify-content:center;
-        gap:16px;font-size:13px;flex:1;min-width:220px;
-        text-align:center;
-    ">
+    <nav class="main-nav">
         <a href="<?php echo $base; ?>link.php"
-            class="nav-link <?php echo ($currentPage === 'link.php') ? 'active' : ''; ?>"
-            style="color:white;text-decoration:none;padding:4px 10px;border-radius:4px;
-                  transition:background 0.15s,color 0.15s;">
+           class="nav-link <?php echo ($currentPage === 'link.php') ? 'active' : ''; ?>">
             Home
         </a>
 
         <!-- Event dropdown -->
         <div class="nav-dropdown">
-            <button class="nav-dropbtn" style="color:white;text-decoration:none;padding:4px 10px;border-radius:4px;
-                  transition:background 0.15s,color 0.15s;">Event</button>
+            <button class="nav-dropbtn nav-link">Event</button>
             <div class="nav-dropdown-content">
                 <a href="event/form.php">Event Form</a>
                 <a href="<?php echo $base; ?>event/get.php">Event Data</a>
@@ -63,7 +47,7 @@ $base = in_array($dirName, ['event', 'employee', 'department', 'project']) ? '..
 
         <!-- Employees dropdown -->
         <div class="nav-dropdown">
-            <button class="nav-dropbtn">Employees</button>
+            <button class="nav-dropbtn nav-link">Employees</button>
             <div class="nav-dropdown-content">
                 <a href="<?php echo $base; ?>employee/form.php">Employees Form</a>
                 <a href="<?php echo $base; ?>employee/get.php">Employees Data</a>
@@ -72,7 +56,7 @@ $base = in_array($dirName, ['event', 'employee', 'department', 'project']) ? '..
 
         <!-- Department dropdown -->
         <div class="nav-dropdown">
-            <button class="nav-dropbtn">Department</button>
+            <button class="nav-dropbtn nav-link">Department</button>
             <div class="nav-dropdown-content">
                 <a href="<?php echo $base; ?>department/form.php">Departments Form</a>
                 <a href="<?php echo $base; ?>department/get.php">Departments Data</a>
@@ -81,42 +65,31 @@ $base = in_array($dirName, ['event', 'employee', 'department', 'project']) ? '..
 
         <!-- Project dropdown -->
         <div class="nav-dropdown">
-            <button class="nav-dropbtn">Project</button>
+            <button class="nav-dropbtn nav-link">Project</button>
             <div class="nav-dropdown-content">
                 <a href="<?php echo $base; ?>project/form.php">Project Form</a>
                 <a href="<?php echo $base; ?>project/get.php">Project Data</a>
             </div>
         </div>
 
-        <a href="<?php echo $base; ?>privacy.php"
-            class="nav-link"
-            style="color:white;text-decoration:none;padding:4px 10px;border-radius:4px;
-                  transition:background 0.15s,color 0.15s;">
+        <a href="<?php echo $base; ?>privacy.php" class="nav-link">
             Privacy Policy &amp; Terms
         </a>
-        <a href="<?php echo $base; ?>contact.php"
-            class="nav-link"
-            style="color:white;text-decoration:none;padding:4px 10px;border-radius:4px;
-                  transition:background 0.15s,color 0.15s;">
+        <a href="<?php echo $base; ?>contact.php" class="nav-link">
             Contact Us
         </a>
     </nav>
 
-    <div style="display:flex;align-items:center;gap:10px;min-width:150px;justify-content:flex-end;position:relative;">
+    <div class="header-right">
         <?php if (isset($showExport) && $showExport === true): ?>
-            <form method="post" style="margin:0;">
+            <form method="post" class="export-form">
                 <button type="submit" name="export" class="btn-primary btn-small">
                     Export
                 </button>
             </form>
         <?php endif; ?>
 
-        <div id="user-avatar"
-            style="width:34px;height:34px;border-radius:50%;
-                    background:#FFFFFF;display:flex;align-items:center;
-                    justify-content:center;font-weight:600;font-size:16px;
-                    color:#68A691;cursor:pointer;user-select:none;
-                    box-shadow:0 2px 6px rgba(0,0,0,0.18);">
+        <div id="user-avatar" class="user-avatar">
             <?php echo htmlspecialchars($userInitial, ENT_QUOTES, 'UTF-8'); ?>
         </div>
 
@@ -135,9 +108,9 @@ $base = in_array($dirName, ['event', 'employee', 'department', 'project']) ? '..
                 </div>
             </div>
             <hr class="user-card-divider">
-            <a href="<?php echo $base; ?>logout.php" id="logout-link"
-                class="btn-primary btn-small user-card-logout"
-                style="display:block;text-align:center;">
+            <a href="<?php echo $base; ?>logout.php"
+               id="logout-link"
+               class="btn-primary btn-small user-card-logout">
                 Logout
             </a>
         </div>
@@ -162,41 +135,141 @@ $base = in_array($dirName, ['event', 'employee', 'department', 'project']) ? '..
     </div>
 
     <style>
-        @media (max-width: 768px) {
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: #68A691;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            flex-wrap: wrap;
+            row-gap: 10px;
+        }
 
-            header nav span,
-            header nav a {
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 180px;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            display: block;
+            border-radius: 50%;
+        }
+
+        .header-title {
+            margin: 0;
+            font-size: 17px;
+            white-space: nowrap;
+            text-align: left;
+        }
+
+        .main-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            font-size: 13px;
+            flex: 1;
+            min-width: 220px;
+            text-align: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .export-form {
+            margin: 0;
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: #68A691;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+        }
+
+        @media (max-width: 768px) {
+            .main-nav span,
+            .main-nav a {
                 font-size: 11px;
+            }
+
+            .header-title {
+                text-align: center;
+                width: 100%;
             }
         }
 
         @media (max-width: 480px) {
-            header {
+            .site-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
 
-            header>div,
-            header nav {
+            .site-header > div,
+            .site-header nav {
                 justify-content: flex-start;
             }
         }
 
-        header {
-            /* or .navbar / .top-bar */
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-
-        header nav a:hover,
-        header nav span:hover {
+        .main-nav a:hover,
+        .main-nav span:hover {
             background: #3A3D3B;
             color: #787E7A;
         }
 
-        header nav a.active {
+        .main-nav a.active {
             background: #9ac4b6;
             border-radius: 4px;
         }
@@ -456,7 +529,6 @@ $base = in_array($dirName, ['event', 'employee', 'department', 'project']) ? '..
                 opacity: 0;
                 transform: translateY(6px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -466,49 +538,49 @@ $base = in_array($dirName, ['event', 'employee', 'department', 'project']) ? '..
 </header>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var avatar = document.getElementById('user-avatar');
-        var menu = document.getElementById('user-menu');
-        var overlay = document.getElementById('logout-overlay');
-        var logoutLn = document.getElementById('logout-link');
-        var btnOk = document.getElementById('logout-confirm');
-        var btnNo = document.getElementById('logout-cancel');
-        var btnClose = document.getElementById('logout-close');
+document.addEventListener('DOMContentLoaded', function () {
+    var avatar   = document.getElementById('user-avatar');
+    var menu     = document.getElementById('user-menu');
+    var overlay  = document.getElementById('logout-overlay');
+    var logoutLn = document.getElementById('logout-link');
+    var btnOk    = document.getElementById('logout-confirm');
+    var btnNo    = document.getElementById('logout-cancel');
+    var btnClose = document.getElementById('logout-close');
 
-        if (avatar && menu) {
-            avatar.addEventListener('click', function(e) {
-                e.stopPropagation();
-                menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-            });
+    if (avatar && menu) {
+        avatar.addEventListener('click', function (e) {
+            e.stopPropagation();
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        });
 
-            document.addEventListener('click', function() {
-                menu.style.display = 'none';
-            });
+        document.addEventListener('click', function () {
+            menu.style.display = 'none';
+        });
 
-            menu.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }
+        menu.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    }
 
-        function hideOverlay() {
-            if (overlay) overlay.style.display = 'none';
-        }
+    function hideOverlay() {
+        if (overlay) overlay.style.display = 'none';
+    }
 
-        if (logoutLn && overlay) {
-            logoutLn.addEventListener('click', function(e) {
-                e.preventDefault();
-                overlay.style.display = 'flex';
-            });
-        }
+    if (logoutLn && overlay) {
+        logoutLn.addEventListener('click', function (e) {
+            e.preventDefault();
+            overlay.style.display = 'flex';
+        });
+    }
 
-        if (btnNo) btnNo.addEventListener('click', hideOverlay);
-        if (btnClose) btnClose.addEventListener('click', hideOverlay);
+    if (btnNo)    btnNo.addEventListener('click', hideOverlay);
+    if (btnClose) btnClose.addEventListener('click', hideOverlay);
 
-        if (btnOk && logoutLn) {
-            btnOk.addEventListener('click', function() {
-                hideOverlay();
-                window.location.href = logoutLn.href;
-            });
-        }
-    });
+    if (btnOk && logoutLn) {
+        btnOk.addEventListener('click', function () {
+            hideOverlay();
+            window.location.href = logoutLn.href;
+        });
+    }
+});
 </script>

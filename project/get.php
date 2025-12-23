@@ -112,7 +112,7 @@ if ($search !== '') {
         .table-container table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 900px;
+            min-width: 850px;
             background: #ffffff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
@@ -197,17 +197,20 @@ if ($search !== '') {
     ?>
 
     <div class="table-container">
-        <h1>Project Data</h1>
-        <form method="get" style="margin-bottom:12px; text-align:right;">
-            <input type="text" name="search" placeholder="Search by dept ID/project/client/status"
-                value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>"
-                style="padding:6px 8px;border-radius:4px;border:1px solid #ccc;">
-            <button type="submit"
-                style="padding:6px 10px;border-radius:4px;border:1px solid #111827;
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+
+            <h1 style="margin:0;">Project Data</h1>
+            <form method="get" style="margin-bottom:12px; text-align:right;">
+                <input type="text" name="search" placeholder="Dept ID/Project Name"
+                    value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>"
+                    style="padding:6px 8px;border-radius:4px;border:1px solid #ccc;">
+                <button type="submit"
+                    style="padding:6px 10px;border-radius:4px;border:1px solid #111827;
                        background:#111827;color:#f9fafb;cursor:pointer;">
-                Search
-            </button>
-        </form>
+                    Search
+                </button>
+            </form>
+        </div>
 
         <table>
             <tr>
