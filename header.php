@@ -2,7 +2,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-//sumit
+
+// Define the base URL from htdocs root
+define('BASE_URL', '/PHP/'); // <-- change to '/php/' if you rename the folder to lowercase
+
 $currentPage = basename($_SERVER['PHP_SELF']);  // e.g. "link.php"
 
 $headerTitle = isset($pageTitle) && $pageTitle !== ''
@@ -14,15 +17,16 @@ $userInitial = strtoupper(mb_substr($userName, 0, 1, 'UTF-8'));
 
 // detect if header is included from subfolder (event/, employee/, department/, project/)
 $dirName = basename(__DIR__);
-$base = in_array($dirName, ['event','employee','department','project']) ? '../' : './';
+$base = in_array($dirName, ['event', 'employee', 'department', 'project']) ? '../' : './';
 ?>
 <header class="site-header">
     <div class="header-left">
-        <a href="<?php echo $base; ?>link.php" class="logo-link">
+        <a href="<?php echo BASE_URL; ?>link.php" class="logo-link">
+
             <div class="logo-circle">
                 <img src="https://friconix.com/jpg/fi-snsuxx-php-logo.jpg"
-                     alt="PHP Logo"
-                     class="logo-img">
+                    alt="PHP Logo"
+                    class="logo-img">
             </div>
         </a>
         <h3 class="header-title">
@@ -31,8 +35,8 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
     </div>
 
     <nav class="main-nav">
-        <a href="<?php echo $base; ?>link.php"
-           class="nav-link <?php echo ($currentPage === 'link.php') ? 'active' : ''; ?>">
+        <a href="<?php echo BASE_URL; ?>link.php"
+            class="nav-link <?php echo ($currentPage === 'link.php') ? 'active' : ''; ?>">
             Home
         </a>
 
@@ -40,8 +44,8 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
         <div class="nav-dropdown">
             <button class="nav-dropbtn nav-link">Event</button>
             <div class="nav-dropdown-content">
-                <a href="event/form.php">Event Form</a>
-                <a href="<?php echo $base; ?>event/get.php">Event Data</a>
+                <a href="<?php echo BASE_URL; ?>event/form.php">Event Form</a>
+                <a href="<?php echo BASE_URL; ?>event/get.php">Event Data</a>
             </div>
         </div>
 
@@ -49,8 +53,8 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
         <div class="nav-dropdown">
             <button class="nav-dropbtn nav-link">Employees</button>
             <div class="nav-dropdown-content">
-                <a href="<?php echo $base; ?>employee/form.php">Employees Form</a>
-                <a href="<?php echo $base; ?>employee/get.php">Employees Data</a>
+                <a href="<?php echo BASE_URL; ?>employee/form.php">Employees Form</a>
+                <a href="<?php echo BASE_URL; ?>employee/get.php">Employees Data</a>
             </div>
         </div>
 
@@ -58,8 +62,8 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
         <div class="nav-dropdown">
             <button class="nav-dropbtn nav-link">Department</button>
             <div class="nav-dropdown-content">
-                <a href="<?php echo $base; ?>department/form.php">Departments Form</a>
-                <a href="<?php echo $base; ?>department/get.php">Departments Data</a>
+                <a href="<?php echo BASE_URL; ?>department/form.php">Departments Form</a>
+                <a href="<?php echo BASE_URL; ?>department/get.php">Departments Data</a>
             </div>
         </div>
 
@@ -67,8 +71,8 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
         <div class="nav-dropdown">
             <button class="nav-dropbtn nav-link">Project</button>
             <div class="nav-dropdown-content">
-                <a href="<?php echo $base; ?>project/form.php">Project Form</a>
-                <a href="<?php echo $base; ?>project/get.php">Project Data</a>
+                <a href="<?php echo BASE_URL; ?>project/form.php">Project Form</a>
+                <a href="<?php echo BASE_URL; ?>project/get.php">Project Data</a>
             </div>
         </div>
 
@@ -109,8 +113,8 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
             </div>
             <hr class="user-card-divider">
             <a href="<?php echo $base; ?>logout.php"
-               id="logout-link"
-               class="btn-primary btn-small user-card-logout">
+                id="logout-link"
+                class="btn-primary btn-small user-card-logout">
                 Logout
             </a>
         </div>
@@ -240,6 +244,7 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
         }
 
         @media (max-width: 768px) {
+
             .main-nav span,
             .main-nav a {
                 font-size: 11px;
@@ -257,7 +262,7 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
                 align-items: flex-start;
             }
 
-            .site-header > div,
+            .site-header>div,
             .site-header nav {
                 justify-content: flex-start;
             }
@@ -529,6 +534,7 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
                 opacity: 0;
                 transform: translateY(6px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -538,49 +544,49 @@ $base = in_array($dirName, ['event','employee','department','project']) ? '../' 
 </header>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    var avatar   = document.getElementById('user-avatar');
-    var menu     = document.getElementById('user-menu');
-    var overlay  = document.getElementById('logout-overlay');
-    var logoutLn = document.getElementById('logout-link');
-    var btnOk    = document.getElementById('logout-confirm');
-    var btnNo    = document.getElementById('logout-cancel');
-    var btnClose = document.getElementById('logout-close');
+    document.addEventListener('DOMContentLoaded', function() {
+        var avatar = document.getElementById('user-avatar');
+        var menu = document.getElementById('user-menu');
+        var overlay = document.getElementById('logout-overlay');
+        var logoutLn = document.getElementById('logout-link');
+        var btnOk = document.getElementById('logout-confirm');
+        var btnNo = document.getElementById('logout-cancel');
+        var btnClose = document.getElementById('logout-close');
 
-    if (avatar && menu) {
-        avatar.addEventListener('click', function (e) {
-            e.stopPropagation();
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        });
+        if (avatar && menu) {
+            avatar.addEventListener('click', function(e) {
+                e.stopPropagation();
+                menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+            });
 
-        document.addEventListener('click', function () {
-            menu.style.display = 'none';
-        });
+            document.addEventListener('click', function() {
+                menu.style.display = 'none';
+            });
 
-        menu.addEventListener('click', function (e) {
-            e.stopPropagation();
-        });
-    }
+            menu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
 
-    function hideOverlay() {
-        if (overlay) overlay.style.display = 'none';
-    }
+        function hideOverlay() {
+            if (overlay) overlay.style.display = 'none';
+        }
 
-    if (logoutLn && overlay) {
-        logoutLn.addEventListener('click', function (e) {
-            e.preventDefault();
-            overlay.style.display = 'flex';
-        });
-    }
+        if (logoutLn && overlay) {
+            logoutLn.addEventListener('click', function(e) {
+                e.preventDefault();
+                overlay.style.display = 'flex';
+            });
+        }
 
-    if (btnNo)    btnNo.addEventListener('click', hideOverlay);
-    if (btnClose) btnClose.addEventListener('click', hideOverlay);
+        if (btnNo) btnNo.addEventListener('click', hideOverlay);
+        if (btnClose) btnClose.addEventListener('click', hideOverlay);
 
-    if (btnOk && logoutLn) {
-        btnOk.addEventListener('click', function () {
-            hideOverlay();
-            window.location.href = logoutLn.href;
-        });
-    }
-});
+        if (btnOk && logoutLn) {
+            btnOk.addEventListener('click', function() {
+                hideOverlay();
+                window.location.href = logoutLn.href;
+            });
+        }
+    });
 </script>
